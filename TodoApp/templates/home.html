@@ -1,0 +1,117 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<div class="container py-5">
+
+    <h2 class="text-center mb-4 text-white">Todo Application</h2>
+
+    <!-- Pending & Completed Tasks -->
+    <div class="row g-4">
+
+        <!-- Pending Tasks -->
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-primary text-white">
+                    Pending Tasks
+                </div>
+
+                <div class="card-body">
+
+                    <div class="list-group">
+                        {% for task in tasks %}
+                        <div class="list-group-item">
+                            <h6>{{ task }}</h6>
+
+                            <div class="mt-3 d-flex gap-2 float-end">
+                                <a href="{% url 'mark_done' task.pk %}" class="btn btn-success btn-sm">
+                                    Mark Done
+                                </a>
+
+                                <a href="{% url 'edit_task' task.pk %}" class="btn btn-warning btn-sm">
+                                    Edit
+                                </a>
+
+                                <a href="{% url 'delete_task' task.pk %}" class="btn btn-danger btn-sm">
+                                    Delete
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Completed Tasks -->
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-success text-white">
+                    Completed Tasks
+                </div>
+
+                <div class="card-body">
+
+                    <ul class="list-group">
+                        {% for task in completed_tasks %}
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span class="text-decoration-line-through">{{ task }}</span>
+                             <a href="{% url 'mark_undone' task.pk %}" class="btn btn-success btn-sm">
+                                Mark Undone
+                            </a>
+                        </li>
+
+                        {% endfor %}
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Add Task -->
+    <div class="card shadow-sm mt-5 mx-auto" style="max-width: 640px;">
+        <div class="card-header bg-dark text-white">
+            Add New Task
+        </div>
+
+        <div class="card-body">
+
+            <form action="{% url 'add_task' %}" method="POST">
+                {% csrf_token %}
+                <div class="input-group">
+                    <input
+                        type="text"
+                        name="task"
+                        class="form-control"
+                        placeholder="Enter a new task..."
+                        required
+                    >
+
+                    <button type="submit" class="btn btn-primary">
+                        Add Task
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
