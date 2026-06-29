@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}My Blog - Blog{% endblock %}
+{% load static %}
+    {% block corecss %}
+        <link rel="stylesheet" href="{% static 'style.css' %}">
+    {% endblock %}
+{% block content %}
+    <h1>Welcome to the Blog Page</h1>
+    <p>This is the blog page of my blog.</p>
+    <hr/>
+    <ul>
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li>{{ title|upper }}</li>
+         <li>{{ title|lower }}</li>
+         <li>{{ skills|join:", " }}</li>
+          <li>{{ skills|slice:":2" }}</li>
+          <li>{{ skills.0 }}</li>
+    </ul>
+{% endblock %}
